@@ -1,0 +1,51 @@
+PODS:
+  - collection-view-layouts (0.1.2):
+    - collection-view-layouts/Core (= 0.1.2)
+    - collection-view-layouts/FacebookLayout (= 0.1.2)
+    - collection-view-layouts/FlickrLayout (= 0.1.2)
+    - collection-view-layouts/FlipboardLayout (= 0.1.2)
+    - collection-view-layouts/InstagramLayout (= 0.1.2)
+    - collection-view-layouts/PinterestLayout (= 0.1.2)
+    - collection-view-layouts/Px500Layout (= 0.1.2)
+    - collection-view-layouts/TagsLayout (= 0.1.2)
+  - collection-view-layouts/Core (0.1.2)
+  - collection-view-layouts/FacebookLayout (0.1.2):
+    - collection-view-layouts/Core
+  - collection-view-layouts/FlickrLayout (0.1.2):
+    - collection-view-layouts/Core
+  - collection-view-layouts/FlipboardLayout (0.1.2):
+    - collection-view-layouts/Core
+  - collection-view-layouts/InstagramLayout (0.1.2):
+    - collection-view-layouts/Core
+  - collection-view-layouts/PinterestLayout (0.1.2):
+    - collection-view-layouts/Core
+  - collection-view-layouts/Px500Layout (0.1.2):
+    - collection-view-layouts/Core
+  - collection-view-layouts/TagsLayout (0.1.2):
+    - collection-view-layouts/Core
+  - FlickrKit (1.0.9)
+  - Kingfisher (5.0.1)
+  - SnapKit (4.2.0)
+
+DEPENDENCIES:
+  - collection-view-layouts
+  - FlickrKit
+  - Kingfisher
+  - SnapKit
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - collection-view-layouts
+    - FlickrKit
+    - Kingfisher
+    - SnapKit
+
+SPEC CHECKSUMS:
+  collection-view-layouts: f3da16bf3211ecb885bb3e45160c2267edf5b65e
+  FlickrKit: 79ffaf64a12293ba2b1aa8a2e53a4958cb113256
+  Kingfisher: 4f771421b9208185217550528a06fd48756cb7c2
+  SnapKit: fe8a619752f3f27075cc9a90244d75c6c3f27e2a
+
+PODFILE CHECKSUM: 41141894eb1e4064f27936a2613721c5f0d8321f
+
+COCOAPODS: 1.5.3
