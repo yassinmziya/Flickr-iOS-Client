@@ -18,7 +18,7 @@ class SearchViewController: UIViewController {
     var collectionView: UICollectionView!
     
     var zoomedImageView: UIImageView!
-    var zoomedImageOverlayView: UIView!
+    var zoomedImageOverlayView: ZoomedImageOverlayView!
     var zoomedCell: SearchResultCell? = nil
     var startingFrame: CGRect? = nil
     
@@ -32,6 +32,7 @@ class SearchViewController: UIViewController {
             collectionView.reloadData()
         }
     }
+    var imageMeta: [[String: Any]] = []
     let padding: CGFloat = 2
     
     override func viewDidLoad() {
@@ -57,10 +58,12 @@ class SearchViewController: UIViewController {
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.register(SearchResultCell.self, forCellWithReuseIdentifier: SearchResultCell.identifier)
+        collectionView.register(NoSerachResultsCell.self, forCellWithReuseIdentifier: NoSerachResultsCell.identifier)
         view.addSubview(collectionView)
         
-        zoomedImageOverlayView = UIView()
-        zoomedImageOverlayView.backgroundColor = .black
+        zoomedImageOverlayView = ZoomedImageOverlayView()
+        zoomedImageOverlayView.delegate = self
+        zoomedImageOverlayView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(dismissZoomedImage)))
         zoomedImageOverlayView.alpha = 0
         view.addSubview(zoomedImageOverlayView)
         
@@ -115,9 +118,11 @@ class SearchViewController: UIViewController {
                         }
                         if retrieveMore {
                             self.photoUrls.append(contentsOf: accum)
+                            self.imageMeta.append(contentsOf: photosArray)
                             print(self.page)
                         } else {
                             self.photoUrls = accum
+                            self.imageMeta = photosArray
                         }
                     }
                 }
@@ -131,9 +136,9 @@ class SearchViewController: UIViewController {
         zoomedImageView = UIImageView(frame: startingFrame!)
         zoomedImageView.image = cell.imageView.image
         zoomedImageView.contentMode = .scaleAspectFit
-        // zoomedImageView.backgroundColor = .red
         zoomedImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(dismissZoomedImage)))
         zoomedImageView.isUserInteractionEnabled = true
+        zoomedImageOverlayView.isUserInteractionEnabled = true
         view.addSubview(zoomedImageView)
         
         UIView.animate(
@@ -151,7 +156,6 @@ class SearchViewController: UIViewController {
     }
     
     @objc func dismissZoomedImage(_ recognizer: UITapGestureRecognizer) {
-        print("trace")
         UIView.animate(
             withDuration: 0.4,
             delay: 0,
@@ -162,6 +166,7 @@ class SearchViewController: UIViewController {
                 self.zoomedCell?.alpha = 1
         }) { _ in
             self.zoomedImageView.removeFromSuperview()
+            self.zoomedImageOverlayView.isUserInteractionEnabled = false
             self.zoomedCell = nil
             self.startingFrame = nil
         }
@@ -169,9 +174,12 @@ class SearchViewController: UIViewController {
     
 }
 
+// MARK:- UICollectionViewDataSource and UICollectionViewDelegate
 extension SearchViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard !photoUrls.isEmpty else { return }
+        
         let cell = collectionView.cellForItem(at: indexPath) as! SearchResultCell
         presentZoomedImage(cell: cell)
     }
@@ -181,20 +189,30 @@ extension SearchViewController: UICollectionViewDataSource, UICollectionViewDele
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return photoUrls.count
+        return max(photoUrls.count, 1)
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        if photoUrls.isEmpty {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NoSerachResultsCell.identifier, for: indexPath) as! NoSerachResultsCell
+            cell.query = self.query
+            return cell
+        }
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SearchResultCell.identifier, for: indexPath) as! SearchResultCell
+        cell.imageId = imageMeta[indexPath.row]["id"] as! String
         cell.imageView.kf.setImage(with: photoUrls[indexPath.row])
         return cell
     }
     
 }
 
+// MARK:- UICollectionViewDelegateFlowLayout
 extension SearchViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        if photoUrls.isEmpty {
+            return CGSize(width: view.frame.width, height: collectionView.frame.height)
+        }
         return CGSize(width: (view.frame.width/3.0) - padding, height: (view.frame.width/3.0) - padding)
     }
     
@@ -208,19 +226,21 @@ extension SearchViewController: UICollectionViewDelegateFlowLayout {
     
 }
 
+// MARK:- UITextFieldDelegate
 extension SearchViewController: UITextFieldDelegate {
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         guard let text = textField.text?.trimmingCharacters(in: .whitespacesAndNewlines), text != "" else { return false }
 
         retrieveImages(query: text, retrieveMore: false)
-        query = text
+        self.query = text
         textField.resignFirstResponder()
         return true
     }
     
 }
 
+// MARK:- UIScrollViewDelegate
 extension SearchViewController: UIScrollViewDelegate {
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -234,6 +254,22 @@ extension SearchViewController: UIScrollViewDelegate {
                 retrieveImages(query: query, retrieveMore: true)
             }
         }
+    }
+    
+}
+
+
+// MARK:- ZoomedImageOverlayViewDelegate
+extension SearchViewController: ZoomedImageOverlayViewDelegate {
+    
+    func commentButtonPressed() {
+        let commentsVC = CommentsViewController()
+        commentsVC.imageId = zoomedCell?.imageId
+        navigationController?.pushViewController(commentsVC, animated: true)
+    }
+    
+    func favoriteButtonPressed() {
+        return
     }
     
 }

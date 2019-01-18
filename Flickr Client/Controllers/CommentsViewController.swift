@@ -17,7 +17,6 @@ class CommentsViewController: UIViewController {
     var comments: [FKComment] = [] {
         didSet {
             tableView.reloadData()
-            loadingView.removeFromSuperview()
         }
     }
     var divider: UIView!
@@ -30,12 +29,13 @@ class CommentsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationController?.isNavigationBarHidden = false
+        navigationController?.isNavigationBarHidden = true
         
         tableView = UITableView()
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(CommentCell.self, forCellReuseIdentifier: CommentCell.identifier)
+        tableView.tableFooterView = UIView()
         view.addSubview(tableView)
         
         divider = UIView()
@@ -125,6 +125,8 @@ class CommentsViewController: UIViewController {
                         }
                         self.comments = accum
                     }
+                    
+                    self.loadingView.removeFromSuperview()
                 }
             }
         }

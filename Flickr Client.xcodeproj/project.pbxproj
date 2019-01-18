@@ -13,6 +13,9 @@
 		1C3413C221EBB9CE00D46105 /* FeedViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C3413C121EBB9CE00D46105 /* FeedViewCell.swift */; };
 		1CE5CBBD21ED13FB00D25B43 /* FKComment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CE5CBBC21ED13FB00D25B43 /* FKComment.swift */; };
 		1CE5CBDD21F00EAC00D25B43 /* SearchResultCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CE5CBDC21F00EAC00D25B43 /* SearchResultCell.swift */; };
+		1CE5CBE121F192DC00D25B43 /* ZoomedImageOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CE5CBE021F192DC00D25B43 /* ZoomedImageOverlayView.swift */; };
+		1CE5CBE621F227C100D25B43 /* EmptyStateCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CE5CBE521F227C100D25B43 /* EmptyStateCell.swift */; };
+		1CE5CBE821F22F8400D25B43 /* NoSerachResultsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CE5CBE721F22F8400D25B43 /* NoSerachResultsCell.swift */; };
 		1CF9AB6B21E99FE8001A4D1C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CF9AB6A21E99FE8001A4D1C /* AppDelegate.swift */; };
 		1CF9AB6D21E99FE8001A4D1C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CF9AB6C21E99FE8001A4D1C /* ViewController.swift */; };
 		1CF9AB7221E99FEB001A4D1C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1CF9AB7121E99FEB001A4D1C /* Assets.xcassets */; };
@@ -32,6 +35,9 @@
 		1C3413C121EBB9CE00D46105 /* FeedViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewCell.swift; sourceTree = "<group>"; };
 		1CE5CBBC21ED13FB00D25B43 /* FKComment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FKComment.swift; sourceTree = "<group>"; };
 		1CE5CBDC21F00EAC00D25B43 /* SearchResultCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultCell.swift; sourceTree = "<group>"; };
+		1CE5CBE021F192DC00D25B43 /* ZoomedImageOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoomedImageOverlayView.swift; sourceTree = "<group>"; };
+		1CE5CBE521F227C100D25B43 /* EmptyStateCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyStateCell.swift; sourceTree = "<group>"; };
+		1CE5CBE721F22F8400D25B43 /* NoSerachResultsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoSerachResultsCell.swift; sourceTree = "<group>"; };
 		1CF9AB6721E99FE8001A4D1C /* Flickr Client.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Flickr Client.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1CF9AB6A21E99FE8001A4D1C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1CF9AB6C21E99FE8001A4D1C /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -65,8 +71,9 @@
 		1C3413BF21EBB99700D46105 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				1CE5CBBB21ED13E400D25B43 /* Models */,
+				1CE5CBE221F2274300D25B43 /* Empty States */,
 				1C3413C021EBB9AA00D46105 /* Cells */,
+				1CE5CBE021F192DC00D25B43 /* ZoomedImageOverlayView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -87,6 +94,15 @@
 				1CE5CBBC21ED13FB00D25B43 /* FKComment.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		1CE5CBE221F2274300D25B43 /* Empty States */ = {
+			isa = PBXGroup;
+			children = (
+				1CE5CBE521F227C100D25B43 /* EmptyStateCell.swift */,
+				1CE5CBE721F22F8400D25B43 /* NoSerachResultsCell.swift */,
+			);
+			path = "Empty States";
 			sourceTree = "<group>";
 		};
 		1CF9AB5E21E99FE8001A4D1C = {
@@ -110,6 +126,7 @@
 		1CF9AB6921E99FE8001A4D1C /* Flickr Client */ = {
 			isa = PBXGroup;
 			children = (
+				1CE5CBBB21ED13E400D25B43 /* Models */,
 				1C3413BF21EBB99700D46105 /* Views */,
 				1CF9AB8721EA6C45001A4D1C /* Extensions */,
 				1CF9AB7C21E9A040001A4D1C /* Controllers */,
@@ -283,6 +300,7 @@
 				1CF9AB7E21E9A05A001A4D1C /* LoginViewController.swift in Sources */,
 				1C304EC521EC28B800855FE7 /* CommentsViewController.swift in Sources */,
 				1C3413C221EBB9CE00D46105 /* FeedViewCell.swift in Sources */,
+				1CE5CBE121F192DC00D25B43 /* ZoomedImageOverlayView.swift in Sources */,
 				1CF9AB8B21EA6DB3001A4D1C /* UIView+Extension.swift in Sources */,
 				1CF9AB8D21EA7B61001A4D1C /* SearchViewController.swift in Sources */,
 				1CF9AB8221EA55A7001A4D1C /* TabBarController.swift in Sources */,
@@ -291,7 +309,9 @@
 				1CF9AB6D21E99FE8001A4D1C /* ViewController.swift in Sources */,
 				1CF9AB8621EA55F8001A4D1C /* FeedViewController.swift in Sources */,
 				1CF9AB6B21E99FE8001A4D1C /* AppDelegate.swift in Sources */,
+				1CE5CBE821F22F8400D25B43 /* NoSerachResultsCell.swift in Sources */,
 				1C304EC721EC29BD00855FE7 /* CommentCell.swift in Sources */,
+				1CE5CBE621F227C100D25B43 /* EmptyStateCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
