@@ -29,7 +29,14 @@ class TabBarController: UITabBarController {
             feedVC,
             searchVC,
             profileVC
-        ].map { UINavigationController(rootViewController: $0) }
+        ].map { vc -> UINavigationController in
+            let navigationController = UINavigationController(rootViewController: vc)
+            navigationController.navigationBar.barTintColor = .flickrGray
+            navigationController.navigationBar.tintColor = .white
+            navigationController.navigationBar.isHidden = true
+            navigationController.navigationBar.isTranslucent = false
+            return navigationController
+        }
         
         viewControllers = tabs
     }

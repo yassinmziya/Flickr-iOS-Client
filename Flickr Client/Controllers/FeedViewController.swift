@@ -28,12 +28,11 @@ class FeedViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .flickrGray
-        navigationController?.navigationBar.isHidden = true
+        view.backgroundColor = .white
         
         let layout = UICollectionViewFlowLayout()
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.backgroundColor = .clear
+        collectionView.backgroundColor = .flickrGray
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.register(FeedViewCell.self, forCellWithReuseIdentifier: FeedViewCell.identifier)
@@ -47,11 +46,14 @@ class FeedViewController: UIViewController {
         setupConstraints()
         getPhotos()
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        navigationController?.navigationBar.isHidden = true
+    }
  
     func setupConstraints() {
         collectionView.snp.makeConstraints { make in
-            make.leading.trailing.bottom.equalToSuperview()
-            make.top.equalTo(view.snp.top)
+            make.edges.equalTo(view.safeAreaLayoutGuide)
         }
         
         overlayView.snp.makeConstraints { make in
@@ -125,7 +127,7 @@ extension FeedViewController: UICollectionViewDelegateFlowLayout {
 extension FeedViewController: FeedViewCellDelegate {
     
     func commentsButtonTapped(id: String) {
-        print("func " + id)
+       //  print("func " + id)
         let commentsVC = CommentsViewController()
         commentsVC.imageId = id
         navigationController?.pushViewController(commentsVC, animated: true)

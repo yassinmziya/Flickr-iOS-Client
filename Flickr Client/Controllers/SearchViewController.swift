@@ -37,7 +37,6 @@ class SearchViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationController?.isNavigationBarHidden = true
         view.backgroundColor = .flickrGray
         
         searchField = UITextField()
@@ -68,6 +67,10 @@ class SearchViewController: UIViewController {
         view.addSubview(zoomedImageOverlayView)
         
         setupConstraints()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        navigationController?.navigationBar.isHidden = true
     }
     
     func setupConstraints() {

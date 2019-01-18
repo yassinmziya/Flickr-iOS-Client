@@ -29,7 +29,9 @@ class CommentsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationController?.isNavigationBarHidden = true
+        
+        
+        navigationController?.navigationItem.title = "Comments (\(comments.count))"
         
         tableView = UITableView()
         tableView.dataSource = self
@@ -72,6 +74,10 @@ class CommentsViewController: UIViewController {
         
         setupConstraints()
         getComments()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        navigationController?.navigationBar.isHidden = false
     }
     
     func setupConstraints() {
