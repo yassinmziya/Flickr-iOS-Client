@@ -12,4 +12,5 @@ import UIKit
 extension UIColor {
     static let flickrGray = UIColor(red: 45/255, green: 45/255, blue: 45/255, alpha: 1.0)
     static let flickrDarkGray = UIColor(red: 32/255, green: 32/255, blue: 32/255, alpha: 1.0)
+    static let flickrBlue = UIColor(red: 16/255, green: 103/255, blue: 217/255, alpha: 1.0)
 }

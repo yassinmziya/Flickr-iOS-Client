@@ -29,6 +29,7 @@ class SearchViewController: UIViewController {
     
     var photoUrls: [URL] = [] {
         didSet {
+            collectionView.isHidden = false
             collectionView.reloadData()
         }
     }
@@ -54,6 +55,7 @@ class SearchViewController: UIViewController {
         let layout = UICollectionViewFlowLayout()
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.backgroundColor = .clear
+        collectionView.isHidden = true
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.register(SearchResultCell.self, forCellWithReuseIdentifier: SearchResultCell.identifier)
@@ -233,7 +235,10 @@ extension SearchViewController: UICollectionViewDelegateFlowLayout {
 extension SearchViewController: UITextFieldDelegate {
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        guard let text = textField.text?.trimmingCharacters(in: .whitespacesAndNewlines), text != "" else { return false }
+        guard let text = textField.text?.trimmingCharacters(in: .whitespacesAndNewlines), text != "" else {
+            collectionView.isHidden = true
+            return false
+        }
 
         retrieveImages(query: text, retrieveMore: false)
         self.query = text

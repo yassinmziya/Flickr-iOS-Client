@@ -21,7 +21,15 @@ class LoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        bgImageView = UIImageView(image: UIImage(named: "login-background"))
+        bgImageView.contentMode = .scaleAspectFill
+        view.addSubview(bgImageView)
+        
         loginButton = UIButton()
+        loginButton.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .bold)
+        loginButton.layer.cornerRadius = 12
+        loginButton.backgroundColor = .flickrBlue
+        loginButton.setTitleColor(.white, for: .normal)
         loginButton.setTitle("Sign in with Flickr", for: .normal)
         loginButton.addTarget(self, action: #selector(loginButtonPressed), for: .touchUpInside)
         view.addSubview(loginButton)
@@ -30,8 +38,15 @@ class LoginViewController: UIViewController {
     }
     
     func setupConstraints() {
+        bgImageView.snp.makeConstraints { make in
+            make.edges.equalTo(view)
+        }
+        
         loginButton.snp.makeConstraints { make in
-            make.center.equalToSuperview()
+            make.centerY.equalToSuperview().multipliedBy(1.75)
+            make.centerX.equalToSuperview()
+            make.width.equalTo(view.frame.width * 0.8)
+            make.height.equalTo(40)
         }
     }
     
@@ -40,7 +55,8 @@ class LoginViewController: UIViewController {
         let url =  URL(string: callbackUrlString)
 
         // 1. prepare flickrkit for auth
-        FlickrKit.shared().beginAuth(withCallbackURL: url!, permission: FKPermission.delete) { (url, error) in
+        FlickrKit.shared().beginAuth(withCallbackURL: url!, permission: FKPermission.write
+        ) { (url, error) in
             if let error = error {
                 self.showAlert(title: "Error", error: error)
             }

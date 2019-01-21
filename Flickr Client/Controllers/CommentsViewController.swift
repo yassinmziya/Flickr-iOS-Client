@@ -30,9 +30,6 @@ class CommentsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
-        navigationController?.navigationItem.title = "Comments (\(comments.count))"
-        
         tableView = UITableView()
         tableView.dataSource = self
         tableView.delegate = self
@@ -78,6 +75,7 @@ class CommentsViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         navigationController?.navigationBar.isHidden = false
+        navigationController?.navigationItem.title = "Comments (\(comments.count))"
     }
     
     func setupConstraints() {
@@ -191,12 +189,25 @@ extension CommentsViewController: UITableViewDataSource, UITableViewDelegate {
     
 }
 
+
+// MARK:- UITextViewDelegate
 extension CommentsViewController: UITextViewDelegate {
     
     func textViewDidBeginEditing(_ textView: UITextView) {
         if textView.text == "Add a comment..." {
             textView.text = ""
             textView.textColor = UIColor.black
+        }
+    }
+    
+    func textViewDidChange(_ textView: UITextView) {
+        let size = CGSize(width: view.frame.width, height: .infinity)
+        let estimatedSize = textView.sizeThatFits(size)
+        textView.snp.updateConstraints { make in
+            make.height.equalTo(estimatedSize.height)
+        }
+        commentAreaContainer.snp.updateConstraints { make in
+            make.height.equalTo(estimatedSize.height + 20)
         }
     }
     

@@ -25,7 +25,7 @@ class CommentCell: UITableViewCell {
         profileImageView.clipsToBounds = true
         profileImageView.layer.cornerRadius = 20
         profileImageView.backgroundColor = .cyan
-        contentView.addSubview(profileImageView)
+        // contentView.addSubview(profileImageView)
         
         usernameLabel = UILabel()
         usernameLabel.text = "John Doe"
@@ -47,15 +47,16 @@ class CommentCell: UITableViewCell {
     }
     
     override func layoutSubviews() {
-        profileImageView?.snp.makeConstraints({ make in
-            make.height.width.equalTo(40)
-            make.leading.top.equalToSuperview().offset(12)
-        })
+//        profileImageView?.snp.makeConstraints({ make in
+//            make.height.width.equalTo(40)
+//            make.leading.top.equalToSuperview().offset(12)
+//        })
         
         usernameLabel.snp.makeConstraints { make in
-            make.top.equalTo(profileImageView)
-            make.leading.equalTo(profileImageView.snp.trailing).offset(8)
-            make.trailing.equalToSuperview().offset(-8)
+            make.top.equalToSuperview().offset(8)
+            make.leading.equalToSuperview().offset(12)
+            make.trailing.equalToSuperview().offset(-12)
+            make.height.equalTo(usernameLabel.intrinsicContentSize.height)
         }
         
         commentTextField.snp.makeConstraints { make in

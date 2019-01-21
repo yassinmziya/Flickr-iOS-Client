@@ -26,9 +26,14 @@ class FeedViewController: UIViewController {
     var originalImageView: UIImageView?
     var overlayView: UIView!
     
+    // infinite scroll logic
+    var isLoadingMore = false
+    var page = 0
+    var totalPages = Int.max
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
+        view.backgroundColor = .flickrGray
         
         let layout = UICollectionViewFlowLayout()
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
@@ -62,9 +67,20 @@ class FeedViewController: UIViewController {
     }
     
     func getPhotos() {
-        FlickrKit.shared().call(FKFlickrInterestingnessGetList()) { (response, error) in
+        guard page <= totalPages else {
+            print("No more pages")
+            return
+        }
+        let method = FKFlickrInterestingnessGetList()
+        method.page = String(page + 1)
+        
+        FlickrKit.shared().call(method) { (response, error) in
             DispatchQueue.main.async {
                 if let response = response, let photoArray = FlickrKit.shared().photoArray(fromResponse: response) {
+                    self.page = (response["photos"] as! [String: Any])["page"] as! Int
+                    self.totalPages = (response["photos"] as! [String: Any])["pages"] as! Int
+                    self.isLoadingMore = false
+                    
                     for photoDict in photoArray {
                         // print(photoDict)
                         let photoUrl = FlickrKit.shared().photoURL(for: FKPhotoSize.large1024, fromPhotoDictionary: photoDict)
@@ -177,6 +193,21 @@ extension FeedViewController: FeedViewCellDelegate {
             self.originalImageView = nil
             self.startingFrame = nil
             zoomedImageView?.removeFromSuperview()
+        }
+    }
+    
+}
+
+// MARK:- UIScrollViewDelegate
+extension FeedViewController: UIScrollViewDelegate {
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let y = scrollView.bounds.origin.y + scrollView.bounds.height
+        let threshold = 2 * view.frame.height
+        
+        if y > scrollView.contentSize.height - threshold  && !isLoadingMore {
+            isLoadingMore = true
+            getPhotos()
         }
     }
     
