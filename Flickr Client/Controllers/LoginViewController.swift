@@ -68,6 +68,7 @@ class LoginViewController: UIViewController {
                 }
                 
                 // 3. pass callback url to flickrkit to set token
+
                 FlickrKit.shared().completeAuth(with: url!, completion: { (s1, s2, s3, error) in
                     if let error = error {
                         self.showAlert(title: "Auth Error", error: error)
