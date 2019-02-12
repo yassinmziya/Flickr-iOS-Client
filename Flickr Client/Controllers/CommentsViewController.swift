@@ -30,6 +30,10 @@ class CommentsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.title = "Comments"
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 40, weight: .bold)]
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
+        
         tableView = UITableView()
         tableView.dataSource = self
         tableView.delegate = self
@@ -155,7 +159,12 @@ class CommentsViewController: UIViewController {
             if let error = error {
                 print(error.localizedDescription)
             } else if let result = result {
-                print(result)
+                DispatchQueue.main.async {
+                    // print(result)
+                    if let comment = result["comment"] as! [String: Any]?, let decodedComment = self.decodeComment(comment: comment) {
+                        self.comments.append(decodedComment)
+                    }
+                }
             }
         }
     }

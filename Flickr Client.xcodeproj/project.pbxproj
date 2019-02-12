@@ -11,6 +11,7 @@
 		1C304EC521EC28B800855FE7 /* CommentsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C304EC421EC28B800855FE7 /* CommentsViewController.swift */; };
 		1C304EC721EC29BD00855FE7 /* CommentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C304EC621EC29BD00855FE7 /* CommentCell.swift */; };
 		1C3413C221EBB9CE00D46105 /* FeedViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C3413C121EBB9CE00D46105 /* FeedViewCell.swift */; };
+		1C8D93AA221370E800D2B6DC /* FlikrKit+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C8D93A9221370E700D2B6DC /* FlikrKit+Extension.swift */; };
 		1CE5CBBD21ED13FB00D25B43 /* FKComment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CE5CBBC21ED13FB00D25B43 /* FKComment.swift */; };
 		1CE5CBDD21F00EAC00D25B43 /* SearchResultCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CE5CBDC21F00EAC00D25B43 /* SearchResultCell.swift */; };
 		1CE5CBE121F192DC00D25B43 /* ZoomedImageOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CE5CBE021F192DC00D25B43 /* ZoomedImageOverlayView.swift */; };
@@ -33,6 +34,7 @@
 		1C304EC421EC28B800855FE7 /* CommentsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentsViewController.swift; sourceTree = "<group>"; };
 		1C304EC621EC29BD00855FE7 /* CommentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentCell.swift; sourceTree = "<group>"; };
 		1C3413C121EBB9CE00D46105 /* FeedViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewCell.swift; sourceTree = "<group>"; };
+		1C8D93A9221370E700D2B6DC /* FlikrKit+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FlikrKit+Extension.swift"; sourceTree = "<group>"; };
 		1CE5CBBC21ED13FB00D25B43 /* FKComment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FKComment.swift; sourceTree = "<group>"; };
 		1CE5CBDC21F00EAC00D25B43 /* SearchResultCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultCell.swift; sourceTree = "<group>"; };
 		1CE5CBE021F192DC00D25B43 /* ZoomedImageOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoomedImageOverlayView.swift; sourceTree = "<group>"; };
@@ -157,6 +159,7 @@
 			children = (
 				1CF9AB8821EA6C5C001A4D1C /* UIColor+Extension.swift */,
 				1CF9AB8A21EA6DB3001A4D1C /* UIView+Extension.swift */,
+				1C8D93A9221370E700D2B6DC /* FlikrKit+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -300,6 +303,7 @@
 				1CF9AB7E21E9A05A001A4D1C /* LoginViewController.swift in Sources */,
 				1C304EC521EC28B800855FE7 /* CommentsViewController.swift in Sources */,
 				1C3413C221EBB9CE00D46105 /* FeedViewCell.swift in Sources */,
+				1C8D93AA221370E800D2B6DC /* FlikrKit+Extension.swift in Sources */,
 				1CE5CBE121F192DC00D25B43 /* ZoomedImageOverlayView.swift in Sources */,
 				1CF9AB8B21EA6DB3001A4D1C /* UIView+Extension.swift in Sources */,
 				1CF9AB8D21EA7B61001A4D1C /* SearchViewController.swift in Sources */,

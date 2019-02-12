@@ -20,13 +20,14 @@ class FeedViewController: UIViewController {
             collectionView.reloadData()
         }
     }
+    var favorites: Set<String> = []
     
-    // zoomed image logic
+    // ZOOMED IMAGE LOGIC
     var startingFrame: CGRect?
     var originalImageView: UIImageView?
     var overlayView: UIView!
     
-    // infinite scroll logic
+    // INFINTE SCROLL LOGIC
     var isLoadingMore = false
     var page = 0
     var totalPages = Int.max
@@ -49,7 +50,10 @@ class FeedViewController: UIViewController {
         view.addSubview(overlayView)
         
         setupConstraints()
-        getPhotos()
+        FlickrKit.shared().getFavourites { favs in
+            self.favorites = favs
+            self.getPhotos()
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -79,7 +83,7 @@ class FeedViewController: UIViewController {
                 if let response = response, let photoArray = FlickrKit.shared().photoArray(fromResponse: response) {
                     self.page = (response["photos"] as! [String: Any])["page"] as! Int
                     self.totalPages = (response["photos"] as! [String: Any])["pages"] as! Int
-                    self.isLoadingMore = false
+                    self.isLoadingMore = false // see UIScrollViewDelegate
                     
                     for photoDict in photoArray {
                         // print(photoDict)
@@ -113,11 +117,10 @@ extension FeedViewController: UICollectionViewDataSource {
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FeedViewCell.identifier, for: indexPath) as! FeedViewCell
         cell.imageView.kf.setImage(with: photos[indexPath.row])
-        if let title = photoData["title"] as? String {
-            cell.titleLabel.text = title
-        }
         if let id = photoData["id"] as? String {
             cell.imageId = id
+            cell.titleLabel.text = (photoData["title"] as? String) ?? ""
+            cell.isFavourite = favorites.contains(id)
         }
         cell.delegate = self
         
@@ -176,6 +179,33 @@ extension FeedViewController: FeedViewCellDelegate {
         },
             completion: nil
         )
+    }
+    
+    func addToFavorites(id: String) {
+        let method = FKFlickrFavoritesAdd()
+        method.photo_id = id
+        
+        FlickrKit.shared().call(method) { (response, error) in
+            if let error =  error {
+                print(error.localizedDescription)
+            } else if let response = response {
+                print(response)
+                self.favorites.insert(id)
+            }
+        }
+    }
+    
+    func removeFromFavorites(id: String) {
+        let method = FKFlickrFavoritesRemove()
+        method.photo_id = id
+        
+        FlickrKit.shared().call(method) { (response, error) in
+            if let error =  error {
+                print(error.localizedDescription)
+            } else if let response = response {
+                self.favorites.remove(id)
+            }
+        }
     }
     
     @objc private func zoomedImageTapped(_ recognizer: UITapGestureRecognizer) {

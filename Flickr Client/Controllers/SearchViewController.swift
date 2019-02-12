@@ -26,6 +26,7 @@ class SearchViewController: UIViewController {
     var totalPages = 0
     var isRetrievingMore = false
     var query: String? = nil
+    var favorites: Set<String> = []
     
     var photoUrls: [URL] = [] {
         didSet {
@@ -68,6 +69,9 @@ class SearchViewController: UIViewController {
         zoomedImageOverlayView.alpha = 0
         view.addSubview(zoomedImageOverlayView)
         
+        FlickrKit.shared().getFavourites { favs in
+            self.favorites = favs
+        }
         setupConstraints()
     }
     
@@ -172,6 +176,7 @@ class SearchViewController: UIViewController {
         }) { _ in
             self.zoomedImageView.removeFromSuperview()
             self.zoomedImageOverlayView.isUserInteractionEnabled = false
+            self.zoomedImageOverlayView.imageId = ""
             self.zoomedCell = nil
             self.startingFrame = nil
         }
@@ -186,6 +191,8 @@ extension SearchViewController: UICollectionViewDataSource, UICollectionViewDele
         guard !photoUrls.isEmpty else { return }
         
         let cell = collectionView.cellForItem(at: indexPath) as! SearchResultCell
+        zoomedImageOverlayView.imageId = cell.imageId
+        zoomedImageOverlayView.isFavorite = favorites.contains(cell.imageId)
         presentZoomedImage(cell: cell)
     }
     
@@ -276,8 +283,28 @@ extension SearchViewController: ZoomedImageOverlayViewDelegate {
         navigationController?.pushViewController(commentsVC, animated: true)
     }
     
-    func favoriteButtonPressed() {
-        return
+    func favoriteButtonPressed(id: String) {
+        if favorites.contains(id) {
+            let method = FKFlickrFavoritesRemove()
+            method.photo_id = id
+            FlickrKit.shared().call(method) { (_, error) in
+                if let error = error {
+                    print(error.localizedDescription)
+                } else {
+                    self.favorites.remove(id)
+                }
+            }
+        } else {
+            let method = FKFlickrFavoritesAdd()
+            method.photo_id = id
+            FlickrKit.shared().call(method) { (_, error) in
+                if let error = error {
+                    print(error.localizedDescription)
+                } else {
+                    self.favorites.insert(id)
+                }
+            }
+        }
     }
     
 }

@@ -55,7 +55,7 @@ class LoginViewController: UIViewController {
         let url =  URL(string: callbackUrlString)
 
         // 1. prepare flickrkit for auth
-        FlickrKit.shared().beginAuth(withCallbackURL: url!, permission: FKPermission.write
+        FlickrKit.shared().beginAuth(withCallbackURL: url!, permission: FKPermission.delete
         ) { (url, error) in
             if let error = error {
                 self.showAlert(title: "Error", error: error)
@@ -65,10 +65,10 @@ class LoginViewController: UIViewController {
             self.authSession = ASWebAuthenticationSession(url: url!, callbackURLScheme: callbackUrlString, completionHandler: { (url, error) in
                 if let error = error {
                     self.showAlert(title: "Auth Error", error: error)
+                    return
                 }
                 
                 // 3. pass callback url to flickrkit to set token
-
                 FlickrKit.shared().completeAuth(with: url!, completion: { (s1, s2, s3, error) in
                     if let error = error {
                         self.showAlert(title: "Auth Error", error: error)

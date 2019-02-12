@@ -8,10 +8,18 @@
 
 import UIKit
 import SnapKit
+import FlickrKit
 
 protocol FeedViewCellDelegate {
     func commentsButtonTapped(id: String)
     func animateImageZoom(imageView: UIImageView)
+    func addToFavorites(id: String)
+    func removeFromFavorites(id: String)
+}
+
+enum ContentInteraction: String {
+    case favorite = "star"
+    case comment = "speech-bubble"
 }
 
 class FeedViewCell: UICollectionViewCell {
@@ -19,11 +27,17 @@ class FeedViewCell: UICollectionViewCell {
     static let identifier = "feedViewCell"
     var delegate: FeedViewCellDelegate?
     var imageId: String!
+    var isFavourite = false {
+        didSet {
+            let imageName = isFavourite ? "gold-star" : "star"
+            interactionButtons[0].setImage(UIImage(named: imageName), for: .normal)
+        }
+    }
     var startingImageFrame: CGRect!
     
     var imageView: UIImageView!
     var interactionsStackView: UIStackView!
-    var interactionButtons: [UIButton] = ["star", "speech-bubble"].map { (iconName) -> UIButton in
+    var interactionButtons: [UIButton] = ["star", "speech-bubble"].map { iconName -> UIButton in
         var button = UIButton()
         button.setImage(UIImage(named: iconName), for: .normal)
         return button
@@ -52,6 +66,7 @@ class FeedViewCell: UICollectionViewCell {
         titleLabel.font = UIFont.systemFont(ofSize: 14)
         contentView.addSubview(titleLabel)
         
+        interactionButtons[0].addTarget(self, action: #selector(toggleFavorite), for: .touchUpInside)
         interactionButtons[1].addTarget(self, action: #selector(viewComments), for: .touchUpInside)
     }
     
@@ -83,6 +98,12 @@ class FeedViewCell: UICollectionViewCell {
     @objc func viewComments() {
         delegate?.commentsButtonTapped(id: imageId)
     }
+    
+    @objc func toggleFavorite() {
+        isFavourite ? delegate?.removeFromFavorites(id: imageId) : delegate?.addToFavorites(id: imageId)
+        isFavourite = !isFavourite
+    }
+    
     
     @objc func onImageTap(_ recognizer: UITapGestureRecognizer) {
         delegate?.animateImageZoom(imageView: imageView)

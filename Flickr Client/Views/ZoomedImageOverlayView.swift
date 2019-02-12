@@ -11,12 +11,19 @@ import SnapKit
 
 protocol ZoomedImageOverlayViewDelegate {
     func commentButtonPressed()
-    func favoriteButtonPressed()
+    func favoriteButtonPressed(id: String)
 }
 
 class ZoomedImageOverlayView: UIView {
     var delegate: ZoomedImageOverlayViewDelegate?
     
+    var imageId: String!
+    var isFavorite = false {
+        didSet {
+            let imageName = isFavorite ? "gold-star" : "star"
+            photoInteractions[0].setImage(UIImage(named: imageName), for: .normal)
+        }
+    }
     var stackView: UIStackView!
     var photoInteractions = [(image: UIImage(named: "star"), function: #selector(favoriteButtonPressed)),
                              (image: UIImage(named: "speech-bubble"), function: #selector(commentButtonPressed))
@@ -44,7 +51,8 @@ class ZoomedImageOverlayView: UIView {
     }
     
     @objc func favoriteButtonPressed() {
-        delegate?.favoriteButtonPressed()
+        delegate?.favoriteButtonPressed(id: imageId)
+        isFavorite = !isFavorite
     }
     
     override func layoutSubviews() {
