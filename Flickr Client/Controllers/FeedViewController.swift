@@ -133,7 +133,11 @@ extension FeedViewController: UICollectionViewDataSource {
 extension FeedViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: view.frame.width, height: (view.frame.height / 2))
+        // print(UIDevice.modelName)
+        if UIDevice.modelName == "iPhone 5" ||  UIDevice.modelName == "iPhone SE"  ||  UIDevice.modelName == "iPhone 4" ||  UIDevice.modelName == "iPhone 4S" {
+            return CGSize(width: view.frame.width, height: (view.frame.height * 0.68))
+        }
+        return CGSize(width: view.frame.width, height: (view.frame.height * 0.53))
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
@@ -163,7 +167,7 @@ extension FeedViewController: FeedViewCellDelegate {
         zoomedImageView.contentMode = .scaleAspectFill
         zoomedImageView.clipsToBounds = true
         zoomedImageView.image = imageView.image
-        zoomedImageView.backgroundColor = .red
+        // zoomedImageView.backgroundColor = .red
         view.addSubview(zoomedImageView)
         imageView.alpha = 0
             
