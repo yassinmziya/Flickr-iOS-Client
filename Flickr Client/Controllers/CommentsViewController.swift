@@ -210,23 +210,17 @@ extension CommentsViewController: UITextViewDelegate {
     }
     
     func textViewDidChange(_ textView: UITextView) {
-        let size = CGSize(width: view.frame.width, height: .infinity)
-        let estimatedSize = textView.sizeThatFits(size)
-        textView.snp.updateConstraints { make in
-            make.height.equalTo(estimatedSize.height)
-        }
-        commentAreaContainer.snp.updateConstraints { make in
-            make.height.equalTo(estimatedSize.height + 20)
-        }
+        resetTextViewHeight(textView)
     }
     
     
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        if (text == "\n") {
+        if (text == "\n") { // UPON PRESSING RETURN
             postComment()
             textView.resignFirstResponder()
             textView.text = "Add a comment..."
             textView.textColor = UIColor.lightGray
+            resetTextViewHeight(textView)
         }
         return true
     }
@@ -238,4 +232,14 @@ extension CommentsViewController: UITextViewDelegate {
         }
     }
     
+    private func resetTextViewHeight(_ textView: UITextView) {
+        let size = CGSize(width: view.frame.width, height: .infinity)
+        let estimatedSize = textView.sizeThatFits(size)
+        textView.snp.updateConstraints { make in
+            make.height.equalTo(estimatedSize.height)
+        }
+        commentAreaContainer.snp.updateConstraints { make in
+            make.height.equalTo(estimatedSize.height + 20)
+        }
+    }
 }

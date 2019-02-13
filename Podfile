@@ -9,5 +9,5 @@ target 'Flickr Client' do
   pod 'SnapKit'
   pod 'FlickrKit'
   pod 'Kingfisher'
-  pod 'collection-view-layouts'
+  pod 'IQKeyboardManagerSwift'
 end

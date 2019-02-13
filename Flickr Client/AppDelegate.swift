@@ -8,6 +8,7 @@
 
 import UIKit
 import FlickrKit
+import IQKeyboardManagerSwift
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -17,6 +18,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        
+        IQKeyboardManager.shared.enable = true
+        
         FlickrKit.shared().initialize(withAPIKey: "a13cfe987fafef49a973a4c04610eb60", sharedSecret: "8bd35ed4c183fd67")
         FlickrKit.shared().checkAuthorization { (s1, s2, s3, error) in
             print(FlickrKit.shared().isAuthorized)
